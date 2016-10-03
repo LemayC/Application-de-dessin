@@ -2,6 +2,7 @@ package com.example.a1350150.drawingapp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,12 +27,14 @@ public class CanvasView extends View {
     private static final float TOLERANCE = 3;
     private Random mRng;
     private int r, g, b; // La couleur du trait
+    private Bitmap mBackgroundImage;
 
     public CanvasView(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
         mEraseAll = false;
         mRng = new Random();
+        mBackgroundImage = BitmapFactory.decodeResource(getResources(), R.drawable.image_luigi);
 
         // we set a new Path
         mPath = new Path();
@@ -50,9 +53,13 @@ public class CanvasView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
+        //Change luigi's size :)
+        mBackgroundImage = Bitmap.createScaledBitmap(mBackgroundImage, w, h, false);
+
         // your Canvas will draw onto the defined Bitmap
         mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
+
         invalidate();
     }
 
@@ -61,19 +68,19 @@ public class CanvasView extends View {
     protected void onDraw(Canvas canvas) {
         // draw the mPath with the mPaint on the canvas when onDraw
         if (mEraseAll) {
-            mCanvas.drawColor(Color.WHITE);
+            //Draw luigi on the canvas :)
+            mCanvas.drawBitmap(mBackgroundImage, 0f, 0f, null);
             mEraseAll = false;
         } else {
             mCanvas.drawPath(mPath, mPaint);
-            canvas.drawBitmap(mBitmap, 0f, 0f, null);
         }
+        canvas.drawBitmap(mBitmap, 0f, 0f, null);
         super.onDraw(canvas);
     }
 
     // when ACTION_DOWN start touch according to the x,y values
     private void startTouch(float x, float y) {
         mPaint.setARGB(125, r, g, b);
-        mPaint.setStrokeWidth((float)mRng.nextInt(49) + 1f);
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
