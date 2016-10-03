@@ -20,21 +20,18 @@ public class CanvasView extends View {
 
     private Bitmap mBitmap;
     private Canvas mCanvas;
-    private boolean mEraseAll;
+    private boolean mResetCanvas;
     private Path mPath;
     Context context;
     private Paint mPaint;
     private float mX, mY;
     private static final float TOLERANCE = 3;
-    private Random mRng;
-    private int color; // La couleur du trait
     private Bitmap mBackgroundImage;
 
     public CanvasView(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
-        mEraseAll = false;
-        mRng = new Random();
+        mResetCanvas = true;
         mBackgroundImage = BitmapFactory.decodeResource(getResources(), R.drawable.image_luigi);
 
         // we set a new Path
@@ -46,7 +43,7 @@ public class CanvasView extends View {
         mPaint.setColor(Color.RED);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeWidth(12f);
+        mPaint.setStrokeWidth(16f);
     }
 
     // override onSizeChanged
@@ -68,10 +65,10 @@ public class CanvasView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         // draw the mPath with the mPaint on the canvas when onDraw
-        if (mEraseAll) {
+        if (mResetCanvas) {
             //Draw luigi on the canvas :)
             mCanvas.drawBitmap(mBackgroundImage, 0f, 0f, null);
-            mEraseAll = false;
+            mResetCanvas = false;
         } else {
             mCanvas.drawPath(mPath, mPaint);
         }
@@ -81,7 +78,6 @@ public class CanvasView extends View {
 
     // when ACTION_DOWN start touch according to the x,y values
     private void startTouch(float x, float y) {
-        mPaint.setColor(color);
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
@@ -98,14 +94,16 @@ public class CanvasView extends View {
         }
     }
 
+    // effaceles couleurs du dessin
     public void clearCanvas() {
-        mEraseAll = true;
+        mResetCanvas = true;
         invalidate();
     }
 
+    // change la couleur du pinceau selon le bouton
     public void changeDrawingColor(View v){
         ColorDrawable colorDrawableVar = (ColorDrawable) v.getBackground();
-        color = colorDrawableVar.getColor();
+        mPaint.setColor(colorDrawableVar.getColor());
     }
 
     // when ACTION_UP stop touch
