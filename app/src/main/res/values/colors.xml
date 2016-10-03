@@ -4,11 +4,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorButton">#a41313</color>
-    <color name="colorButton2">#e4d530</color>
-    <color name="colorButton3">#41993f</color>
-    <color name="colorButton4">#3a4ed1</color>
-    <color name="colorButton5">#e68f04</color>
-    <color name="colorButton6">#7c7c7c</color>
-    <color name="colorButton7">#222222</color>
+    <color name="colorButton">#e84c3d</color>
+    <color name="colorButton2">#2ecd71</color>
+    <color name="colorButton3">#3598dc</color>
+    <color name="colorButton4">#9a59b5</color>
+    <color name="colorButton5">#f2c40f</color>
+    <color name="colorButton6">#e77e22</color>
+    <color name="colorButton7">#000000</color>
+    <color name="colorButton8">#FFFFFF</color>
 </resources>

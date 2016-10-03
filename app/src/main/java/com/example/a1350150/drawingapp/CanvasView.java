@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -26,7 +27,7 @@ public class CanvasView extends View {
     private float mX, mY;
     private static final float TOLERANCE = 3;
     private Random mRng;
-    private int r, g, b; // La couleur du trait
+    private int color; // La couleur du trait
     private Bitmap mBackgroundImage;
 
     public CanvasView(Context c, AttributeSet attrs) {
@@ -80,7 +81,7 @@ public class CanvasView extends View {
 
     // when ACTION_DOWN start touch according to the x,y values
     private void startTouch(float x, float y) {
-        mPaint.setARGB(125, r, g, b);
+        mPaint.setColor(color);
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
@@ -103,10 +104,8 @@ public class CanvasView extends View {
     }
 
     public void changeDrawingColor(View v){
-        Color color = Color.parseColor(R.color.v.getId());
-        r = color.getRed();
-        b = color.getBlue();
-        g = color.getGreen();
+        ColorDrawable colorDrawableVar = (ColorDrawable) v.getBackground();
+        color = colorDrawableVar.getColor();
     }
 
     // when ACTION_UP stop touch
