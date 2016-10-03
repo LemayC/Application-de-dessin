@@ -20,4 +20,8 @@ public class MainActivity extends Activity {
         customCanvas.clearCanvas();
     }
 
+    public void changeDrawingColor(View v){
+        customCanvas.changeDrawingColor(v);
+    }
+
 }
