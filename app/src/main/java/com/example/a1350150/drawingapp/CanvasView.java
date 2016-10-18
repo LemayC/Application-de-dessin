@@ -1,6 +1,7 @@
 package com.example.a1350150.drawingapp;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Collection;
 import java.util.Random;
 
 public class CanvasView extends View {
@@ -26,13 +28,12 @@ public class CanvasView extends View {
     private Paint mPaint;
     private float mX, mY;
     private static final float TOLERANCE = 3;
-    private Bitmap mBackgroundImage;
+    private Bitmap mBackgroundImage = BitmapFactory.decodeResource(getResources(), R.drawable.image_luigi);
 
     public CanvasView(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
         mResetCanvas = true;
-        mBackgroundImage = BitmapFactory.decodeResource(getResources(), R.drawable.image_luigi);
 
         // we set a new Path
         mPath = new Path();
@@ -51,12 +52,12 @@ public class CanvasView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        //Change luigi's size :)
+        //Change bg image size
         mBackgroundImage = Bitmap.createScaledBitmap(mBackgroundImage, w, h, false);
 
-        // your Canvas will draw onto the defined Bitmap
         mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
+        mCanvas.drawBitmap(mBackgroundImage, 0f, 0f, null);
 
         invalidate();
     }
@@ -74,6 +75,17 @@ public class CanvasView extends View {
         }
         canvas.drawBitmap(mBitmap, 0f, 0f, null);
         super.onDraw(canvas);
+    }
+
+    public void setBackgroudImage(Resources res, int id) {
+        int w = mBitmap.getWidth();
+        int h = mBitmap.getHeight();
+        //Create bitmap
+        mBackgroundImage = BitmapFactory.decodeResource(getResources(), id);
+        //Resize bitmap
+        mBackgroundImage = Bitmap.createScaledBitmap(mBackgroundImage, w, h, false);
+        mCanvas = new Canvas(mBitmap);
+        mCanvas.drawBitmap(mBackgroundImage, 0f, 0f, null);
     }
 
     // when ACTION_DOWN start touch according to the x,y values
@@ -96,6 +108,21 @@ public class CanvasView extends View {
 
     // effaceles couleurs du dessin
     public void clearCanvas() {
+        Random rng = new Random();
+        int i = rng.nextInt(3);
+        int resId = 0;
+        switch (i) {
+            case 0:
+                resId = R.drawable.image_yoshi;
+                break;
+            case 1:
+                resId = R.drawable.image_mario;
+                break;
+            default:
+                resId = R.drawable.image_luigi;
+                break;
+        }
+        setBackgroudImage(getResources(), resId);
         mResetCanvas = true;
         invalidate();
     }
