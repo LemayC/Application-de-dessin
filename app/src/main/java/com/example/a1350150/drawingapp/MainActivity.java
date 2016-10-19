@@ -9,17 +9,18 @@ public class MainActivity extends Activity {
 
     private CanvasView customCanvas;
     private NfcAdapter adapter;
-    private reader callback;
+    private Reader callback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        callback = new reader(customCanvas);
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         customCanvas = (CanvasView) findViewById(R.id.signature_canvas);
+        callback = new Reader(customCanvas);
 
         adapter = NfcAdapter.getDefaultAdapter(this);
         adapter.enableReaderMode(this, this.callback, NfcAdapter.STATE_ON, null);

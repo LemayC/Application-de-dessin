@@ -14,10 +14,10 @@ import android.nfc.tech.Ndef;
 
 import java.io.IOException;
 
-public class reader implements NfcAdapter.ReaderCallback {
+public class Reader implements NfcAdapter.ReaderCallback {
     private CanvasView customCanvas;
 
-    public reader(CanvasView customCanvas) {
+    public Reader(CanvasView customCanvas) {
         this.customCanvas = customCanvas;
     }
 
@@ -25,6 +25,7 @@ public class reader implements NfcAdapter.ReaderCallback {
     public void onTagDiscovered(Tag tag) {
         MifareUltralight amiibo = MifareUltralight.get(tag);
         byte[] info = new byte[0];
+        int resId = 0;
 
         try{
             amiibo.connect();
@@ -35,15 +36,26 @@ public class reader implements NfcAdapter.ReaderCallback {
         }
 
         if (amiibo.isConnected()){
-
             try{
-                info = amiibo.readPages(21);
-
-                System.out.println(info[0]);
-                System.out.println(info[1]);
-                System.out.println(info[2]);
-                System.out.println(info[3]);
-
+                //Luigi = 28
+                //Yoshi = 33
+                //Mario = -6
+                info = amiibo.readPages(0);
+                switch ((int) info[1]) {
+                    case 33:
+                        resId = R.drawable.image_yoshi;
+                        System.out.println("yoshi!");
+                        break;
+                    case -6:
+                        resId = R.drawable.image_mario;
+                        System.out.println("mario!");
+                        break;
+                    default:
+                        resId = R.drawable.image_luigi;
+                        System.out.println("luigi!");
+                        break;
+                }
+                customCanvas.setBackgroudImage(resId);
                 amiibo.close();
             }
             catch (IOException e){
@@ -52,8 +64,6 @@ public class reader implements NfcAdapter.ReaderCallback {
             }
 
         }
-
-        customCanvas.clearCanvas();
     }
 
 }

@@ -77,7 +77,7 @@ public class CanvasView extends View {
         super.onDraw(canvas);
     }
 
-    public void setBackgroudImage(Resources res, int id) {
+    public void setBackgroudImage(int id) {
         int w = mBitmap.getWidth();
         int h = mBitmap.getHeight();
         //Create bitmap
@@ -108,21 +108,6 @@ public class CanvasView extends View {
 
     // effaceles couleurs du dessin
     public void clearCanvas() {
-        Random rng = new Random();
-        int i = rng.nextInt(3);
-        int resId = 0;
-        switch (i) {
-            case 0:
-                resId = R.drawable.image_yoshi;
-                break;
-            case 1:
-                resId = R.drawable.image_mario;
-                break;
-            default:
-                resId = R.drawable.image_luigi;
-                break;
-        }
-        setBackgroudImage(getResources(), resId);
         mResetCanvas = true;
         invalidate();
     }
